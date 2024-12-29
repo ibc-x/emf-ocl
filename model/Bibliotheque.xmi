@@ -5,16 +5,33 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:org.eclipse.demo.biblio="http://org/eclipse/demo/biblio"
     xsi:schemaLocation="http://org/eclipse/demo/biblio com.gestionbibliothque.ecore"
-    nom="Gaffé">
-  <livres titre="One piece"
-      exemplaire="100000"/>
-  <livres titre="Vinland Saga"
-      exemplaire="12"/>
+    id="1" nom="Gaffé">
+  <livres id="11"
+      titre="One piece"
+      exemplaire="3"
+      isbn="099ODA"/>
+  <livres id="12"
+      titre="Vinland Saga"
+      exemplaire="12"
+      isbn="Kishito"/>
   <emprunts
-      abonne="//@abonnes.0"
+      id="21"
+      livre="11"
+      abonne="31"
       date="2024-12-20T00:00:00.000+0000"/>
-  <abonnes prenom="Alassane"
-      nom="Coulibaly"/>
-  <abonnes prenom="Aminata"
-      nom="Cisse"/>
+  <emprunts
+      id="22"
+      livre="12"
+      abonne="31"
+      date="2024-12-14T00:00:00.000+0000"/>
+  <abonnes id="31"
+      prenom="Alassane"
+      nom="Coulibaly"
+      telephone="20202020"
+      numero="1"/>
+  <abonnes id="32"
+      prenom="Aminata"
+      nom="Cisse"
+      telephone="21212121"
+      numero="2"/>
 </org.eclipse.demo.biblio:Bibliotheque>

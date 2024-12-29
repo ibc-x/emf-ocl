@@ -31,6 +31,12 @@
         <details key="nullFree" value="false"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auteurs" ordered="false"
+        upperBound="-1" eType="#//Auteur" containment="true" eOpposite="#//Auteur/bibliotheque">
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Livre">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -39,6 +45,11 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
       <details key="check_exemplaire" value="bibliotheque.emprunts->select(livre=self)->size()&lt;=exemplaire"/>
     </eAnnotations>
+    <eOperations name="estDisponible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="emprunts->size() &lt; exemplaire"/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
         iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="titre" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -49,12 +60,46 @@
         eOpposite="#//Bibliotheque/livres"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="auteur" eType="#//Auteur"
         eOpposite="#//Auteur/livres"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="emprunts" ordered="false"
+        upperBound="-1" eType="#//Emprunt" volatile="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="bibliotheque.emprunts->select(livre=self)"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Abonne" eSuperTypes="#//Personne">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="check_deux_emprunt_max check_unique_emprunt"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="check_deux_emprunt_max" value="emprunts->size() &lt;= 1"/>
+      <details key="check_unique_emprunt" value="emprunts->isUnique(livre)"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bibliotheque" eType="#//Bibliotheque"
         eOpposite="#//Bibliotheque/abonnes"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="numero" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="emprunts" ordered="false"
+        upperBound="-1" eType="#//Emprunt" volatile="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="bibliotheque.emprunts->select(abonne = self)"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="livres" ordered="false"
+        unique="false" upperBound="-1" eType="#//Livre" volatile="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="emprunts->collect(livre)"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Emprunt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
@@ -74,6 +119,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="livres" upperBound="-1"
         eType="#//Livre" containment="true" eOpposite="#//Livre/auteur"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bibliotheque" eType="#//Bibliotheque"
+        eOpposite="#//Bibliotheque/auteurs"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Personne" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
