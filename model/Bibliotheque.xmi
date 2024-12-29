@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.eclipse.demo.biblio:Bibliotheque
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:org.eclipse.demo.biblio="http://org/eclipse/demo/biblio"
+    xsi:schemaLocation="http://org/eclipse/demo/biblio com.gestionbibliothque.ecore"
+    nom="Gaffé">
+  <livres titre="One piece"
+      exemplaire="100000"/>
+  <livres titre="Vinland Saga"
+      exemplaire="12"/>
+  <emprunts
+      abonne="//@abonnes.0"
+      date="2024-12-20T00:00:00.000+0000"/>
+  <abonnes prenom="Alassane"
+      nom="Coulibaly"/>
+  <abonnes prenom="Aminata"
+      nom="Cisse"/>
+</org.eclipse.demo.biblio:Bibliotheque>

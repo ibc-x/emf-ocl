@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="biblio" nsURI="http://org/eclipse/demo/biblio" nsPrefix="org.eclipse.demo.biblio">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Bibliotheque">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nom" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="livres" ordered="false"
+        upperBound="-1" eType="#//Livre" containment="true" eOpposite="#//Livre/bibliotheque">
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="emprunts" ordered="false"
+        upperBound="-1" eType="#//Emprunt" containment="true">
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abonnes" ordered="false"
+        upperBound="-1" eType="#//Abonne" containment="true" eOpposite="#//Abonne/bibliotheque">
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Livre">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="check_exemplaire"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="check_exemplaire" value="bibliotheque.emprunts->select(livre=self)->size()&lt;=exemplaire"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="titre" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exemplaire" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isbn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bibliotheque" eType="#//Bibliotheque"
+        eOpposite="#//Bibliotheque/livres"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auteur" eType="#//Auteur"
+        eOpposite="#//Auteur/livres"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Abonne" eSuperTypes="#//Personne">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bibliotheque" eType="#//Bibliotheque"
+        eOpposite="#//Bibliotheque/abonnes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numero" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Emprunt">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="livre" lowerBound="1" eType="#//Livre"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abonne" lowerBound="1"
+        eType="#//Abonne"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="etat" lowerBound="1" eType="#//EtatEmprunt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EtatEmprunt">
+    <eLiterals name="ENCOURS"/>
+    <eLiterals name="TERMINER" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Auteur" eSuperTypes="#//Personne">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pseudo" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="livres" upperBound="-1"
+        eType="#//Livre" containment="true" eOpposite="#//Livre/auteur"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Personne" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prenom" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nom" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="telephone" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="genre" lowerBound="1" eType="#//Genre"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Genre">
+    <eLiterals name="MASCULIN"/>
+    <eLiterals name="FEMININ" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>
